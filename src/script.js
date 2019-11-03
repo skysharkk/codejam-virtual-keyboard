@@ -9,6 +9,13 @@ render.addContent();
 
 const textArea = document.querySelector('.text');
 
+function changeSymbol(classElement) {
+  document.querySelectorAll(classElement).forEach((item) => {
+    item.children[0].classList.toggle('hidden');
+    item.children[1].classList.toggle('hidden');
+  });
+}
+
 document.querySelectorAll('.key').forEach((value) => {
   if (!value.classList.contains('specialized_keys')) {
     value.addEventListener('click', () => {
@@ -18,23 +25,14 @@ document.querySelectorAll('.key').forEach((value) => {
   }
 });
 
-document.querySelector('.caps_lock').addEventListener('click', function changeCapsLockStatus() {
-  document.querySelectorAll('.letter').forEach((item) => {
-    item.children[0].classList.toggle('hidden');
-    item.children[1].classList.toggle('hidden');
-  });
+document.querySelector('.caps_lock').addEventListener('click', function changeCapsState() {
+  changeSymbol('.letter');
   this.classList.toggle('active');
 });
 
-document.querySelector('.shift_left').addEventListener('click', function changeCapsLockStatus() {
-  document.querySelectorAll('.letter').forEach((item) => {
-    item.children[0].classList.toggle('hidden');
-    item.children[1].classList.toggle('hidden');
-  });
-  document.querySelectorAll('.shift').forEach((item) => {
-    item.children[0].classList.toggle('hidden');
-    item.children[1].classList.toggle('hidden');
-  });
+document.querySelector('.shift_left').addEventListener('click', function changeShiftState() {
+  changeSymbol('.letter');
+  changeSymbol('.shift');
   this.classList.toggle('active');
 });
 
