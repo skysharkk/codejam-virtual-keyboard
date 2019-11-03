@@ -70,3 +70,18 @@ document.querySelector('.del').addEventListener('click', () => {
   const end = textArea.selectionStart + 1;
   getCursorPosition(start, end, text);
 });
+
+
+document.querySelector('.arrow_left').addEventListener('click', () => {
+  const text = textArea.value;
+  const start = textArea.selectionStart - 1;
+  const end = textArea.selectionStart - 1;
+  getCursorPosition(start, end, text);
+});
+
+document.querySelector('.arrow_right').addEventListener('click', () => {
+  const text = textArea.value;
+  const start = textArea.selectionStart + 1;
+  const end = textArea.selectionStart + 1;
+  getCursorPosition(start, end, text);
+});
