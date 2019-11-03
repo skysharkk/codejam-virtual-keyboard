@@ -21,6 +21,12 @@ function addSymbol(value) {
   textArea.setRangeText(value, textArea.selectionStart, textArea.selectionEnd, 'end');
 }
 
+function getCursorPosition(start, end, text) {
+  textArea.focus();
+  textArea.value = text.slice(0, start) + text.slice(end, text.length);
+  textArea.setRangeText('', start, start, 'end');
+}
+
 
 document.querySelectorAll('.key').forEach((value) => {
   if (!value.classList.contains('specialized_keys')) {
@@ -55,16 +61,12 @@ document.querySelector('.backspace').addEventListener('click', () => {
   const text = textArea.value;
   const start = textArea.selectionStart - 1;
   const end = textArea.selectionStart;
-  textArea.focus();
-  textArea.value = text.slice(0, start) + text.slice(end, text.length);
-  textArea.setRangeText('', start, start, 'end');
+  getCursorPosition(start, end, text);
 });
 
 document.querySelector('.del').addEventListener('click', () => {
   const text = textArea.value;
   const start = textArea.selectionStart;
   const end = textArea.selectionStart + 1;
-  textArea.focus();
-  textArea.value = text.slice(0, start) + text.slice(end, text.length);
-  textArea.setRangeText('', start, start, 'end');
+  getCursorPosition(start, end, text);
 });
