@@ -16,12 +16,15 @@ function changeSymbol(classElement) {
   });
 }
 
+function addSymbol(value) {
+  textArea.focus();
+  textArea.setRangeText(value, textArea.selectionStart, textArea.selectionEnd, 'end');
+}
+
+
 document.querySelectorAll('.key').forEach((value) => {
   if (!value.classList.contains('specialized_keys')) {
-    value.addEventListener('click', () => {
-      textArea.focus();
-      textArea.setRangeText(value.innerText, textArea.selectionStart, textArea.selectionEnd, 'end');
-    });
+    value.addEventListener('click', () => addSymbol(value.innerText));
   }
 });
 
@@ -36,10 +39,31 @@ document.querySelector('.shift_left').addEventListener('click', function changeS
   this.classList.toggle('active');
 });
 
+document.querySelector('.shift_right').addEventListener('click', function changeShiftState() {
+  changeSymbol('.letter');
+  changeSymbol('.shift');
+  this.classList.toggle('active');
+});
+
+document.querySelector('.enter').addEventListener('click', () => addSymbol('\n'));
+
+document.querySelector('.tab').addEventListener('click', () => addSymbol('\t'));
+
+document.querySelector('.space').addEventListener('click', () => addSymbol(' '));
+
 document.querySelector('.backspace').addEventListener('click', () => {
   const text = textArea.value;
   const start = textArea.selectionStart - 1;
   const end = textArea.selectionStart;
+  textArea.focus();
+  textArea.value = text.slice(0, start) + text.slice(end, text.length);
+  textArea.setRangeText('', start, start, 'end');
+});
+
+document.querySelector('.del').addEventListener('click', () => {
+  const text = textArea.value;
+  const start = textArea.selectionStart;
+  const end = textArea.selectionStart + 1;
   textArea.focus();
   textArea.value = text.slice(0, start) + text.slice(end, text.length);
   textArea.setRangeText('', start, start, 'end');
