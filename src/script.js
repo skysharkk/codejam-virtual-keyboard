@@ -2,11 +2,12 @@
 import Render from './render.js';
 
 const render = new Render();
-const textArea = document.querySelector('.text');
 
 render.addTextArea();
 render.createKey('EN');
 render.addContent();
+
+const textArea = document.querySelector('.text');
 
 document.querySelectorAll('.key').forEach((value) => {
   if (!value.classList.contains('specialized_keys')) {
@@ -35,4 +36,8 @@ document.querySelector('.shift_left').addEventListener('click', function changeC
     item.children[1].classList.toggle('hidden');
   });
   this.classList.toggle('active');
+});
+
+document.querySelector('.backspace').addEventListener('click', () => {
+
 });
