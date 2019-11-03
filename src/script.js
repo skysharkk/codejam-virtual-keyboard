@@ -16,3 +16,23 @@ document.querySelectorAll('.key').forEach((value) => {
     });
   }
 });
+
+document.querySelector('.caps_lock').addEventListener('click', function changeCapsLockStatus() {
+  document.querySelectorAll('.letter').forEach((item) => {
+    item.children[0].classList.toggle('hidden');
+    item.children[1].classList.toggle('hidden');
+  });
+  this.classList.toggle('active');
+});
+
+document.querySelector('.shift_left').addEventListener('click', function changeCapsLockStatus() {
+  document.querySelectorAll('.letter').forEach((item) => {
+    item.children[0].classList.toggle('hidden');
+    item.children[1].classList.toggle('hidden');
+  });
+  document.querySelectorAll('.shift').forEach((item) => {
+    item.children[0].classList.toggle('hidden');
+    item.children[1].classList.toggle('hidden');
+  });
+  this.classList.toggle('active');
+});
