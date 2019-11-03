@@ -2,9 +2,9 @@
   "name": "codejam-virtual-keyboard",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "src/script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint" : "eslint src/"
   },
   "repository": {
     "type": "git",
