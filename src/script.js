@@ -37,5 +37,10 @@ document.querySelector('.shift_left').addEventListener('click', function changeS
 });
 
 document.querySelector('.backspace').addEventListener('click', () => {
-
+  const text = textArea.value;
+  const start = textArea.selectionStart - 1;
+  const end = textArea.selectionStart;
+  textArea.focus();
+  textArea.value = text.slice(0, start) + text.slice(end, text.length);
+  textArea.setRangeText('', start, start, 'end');
 });
