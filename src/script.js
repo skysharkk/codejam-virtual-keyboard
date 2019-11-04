@@ -110,3 +110,56 @@ document.querySelector('.alt_left').addEventListener('click', function activeAlt
 document.querySelector('.alt_right').addEventListener('click', function activeAlt() {
   this.classList.toggle('active');
 });
+
+document.addEventListener('keydown', (event) => {
+  const selector = `.${event.code}`;
+  const key = document.querySelector(selector);
+  if (!key.classList.contains('specialized_keys')) {
+    event.preventDefault();
+    addSymbol(key.innerText);
+    key.classList.add('active');
+  } else if (key.classList.contains('enter')) {
+    event.preventDefault();
+    addSymbol('\n');
+    key.classList.add('active');
+  } else if (key.classList.contains('tab')) {
+    event.preventDefault();
+    addSymbol('\t');
+    key.classList.add('active');
+  } else if (key.classList.contains('space')) {
+    event.preventDefault();
+    addSymbol(' ');
+    key.classList.add('active');
+  } else if (key.classList.contains('backspace')) {
+    event.preventDefault();
+    changeCursorPosition(textArea.selectionStart - 1, textArea.selectionStart, textArea.value);
+    key.classList.add('active');
+  } else if (key.classList.contains('del')) {
+    event.preventDefault();
+    changeCursorPosition(textArea.selectionStart, textArea.selectionStart + 1, textArea.value);
+    key.classList.add('active');
+  } else if ((key.classList.contains('shift_left') || key.classList.contains('shift_right')) && !event.altKey) {
+    changeSymbol('.letter');
+    changeSymbol('.shift');
+    key.classList.add('active');
+  } else if (key.classList.contains('shift_left') && event.altKey) {
+    changeLanguage();
+    key.classList.add('active');
+  } else if (key.classList.contains('caps_lock')) {
+    changeSymbol('.letter');
+    key.classList.toggle('active');
+  }
+});
+
+document.addEventListener('keyup', (event) => {
+  const selector = `.${event.code}`;
+  const key = document.querySelector(selector);
+  if (!key.classList.contains('caps_lock')) {
+    key.classList.remove('active');
+  }
+  if ((key.classList.contains('shift_left') || key.classList.contains('shift_right')) && !event.altKey) {
+    changeSymbol('.letter');
+    changeSymbol('.shift');
+    key.classList.remove('active');
+  }
+});
