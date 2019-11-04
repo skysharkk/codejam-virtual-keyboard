@@ -47,19 +47,17 @@
 }
 
 .shift_right {
-  width: 66px;
+  width: 144px;
 }
 
-.ctrl_left {
-  width: 123px;
-}
-
-.ctrl_right {
+.ctrl_left,
+.ctrl_right,
+.alt_left {
   width: 124px;
 }
 
 .space {
-  width: 446px;
+  width: 482px;
 }
 
 .key:hover {

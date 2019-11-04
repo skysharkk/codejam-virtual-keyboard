@@ -4,15 +4,15 @@ export default class Render {
       ['`', 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '-', '=', 'BACKSPACE'],
       ['TAB', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', 'DEL'],
       ['CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '&apos;', '&bsol;', 'ENTER'],
-      ['SHIFT', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '&#9206;', 'SHIFT R'],
-      ['CTRL', 'WIN', 'ALT', 'SPACE', 'ALT R', 'CTR R', '&#9204;', '&#9207;', '&#9205;'],
+      ['SHIFT', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'SHIFT R'],
+      ['CTRL', 'ALT', 'SPACE', 'ALT R', 'CTR R', '&#9204;', '&#9205;'],
     ];
     this.russianLayout = [
       ['ё', 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '-', '=', 'BACKSPACE'],
       ['TAB', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', 'DEL'],
       ['CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', '&bsol;', 'ENTER'],
-      ['SHIFT', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', '&#9206;', 'SHIFT R'],
-      ['CTRL', 'WIN', 'ALT', 'SPACE', 'ALT R', 'CTR R', '&#9204;', '&#9207;', '&#9205;'],
+      ['SHIFT', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', 'SHIFT R'],
+      ['CTRL', 'ALT', 'SPACE', 'ALT R', 'CTR R', '&#9204;', '&#9205;'],
     ];
     this.specializedKeys = {
       BACKSPACE: 'backspace',
@@ -23,14 +23,11 @@ export default class Render {
       SHIFT: 'shift_left',
       'SHIFT R': 'shift_right',
       CTRL: 'ctrl_left',
-      WIN: 'win',
       ALT: 'alt_left',
       'ALT R': 'alt_right',
-      'CTR R': 'ctr_right',
+      'CTR R': 'ctrl_right',
       SPACE: 'space',
-      '&#9206;': 'arrow_up',
       '&#9204;': 'arrow_left',
-      '&#9207;': 'arrow_down',
       '&#9205;': 'arrow_right',
     };
     this.shiftEnglishLayout = {
