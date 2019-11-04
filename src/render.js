@@ -78,7 +78,20 @@ export default class Render {
     document.body.appendChild(this.textArea);
   }
 
-  createKey(languageLayout) {
+  createKey() {
+    this.englishLayout.forEach((array) => {
+      const lineContainer = document.createElement('div');
+      lineContainer.classList.add('line_container');
+      array.forEach(() => {
+        const key = document.createElement('button');
+        key.classList.add('key');
+        lineContainer.appendChild(key);
+      });
+      this.container.appendChild(lineContainer);
+    });
+  }
+
+  setLanguage(languageLayout) {
     let lang;
     let shiftLayout;
     if (languageLayout === 'EN') {
@@ -88,31 +101,33 @@ export default class Render {
       lang = this.russianLayout;
       shiftLayout = this.shiftRussianLayout;
     }
-    lang.forEach((array) => {
-      const lineContainer = document.createElement('div');
-      lineContainer.classList.add('line_container');
-      array.forEach((item) => {
-        const key = document.createElement('button');
-        key.classList.add('key');
-        if (item in this.specializedKeys) {
-          key.classList.add('specialized_keys');
-          key.classList.add(this.specializedKeys[item]);
-        }
-        if (item in shiftLayout) {
-          key.classList.add('shift');
-          key.innerHTML = `<span>${item}</span>`;
-          key.innerHTML += `<span class="hidden">${shiftLayout[item]}</span>`;
-        } else if ((item.length === 1 && item.match(/[A-zА-я]/g)) || item.match(/[Ё-ё]/g)) {
-          key.classList.add('letter');
-          key.innerHTML = `<span>${item}</span>`;
-          key.innerHTML += `<span class="hidden">${item.toUpperCase()}</span>`;
-        } else {
-          key.innerHTML = `<span>${item}</span>`;
-        }
-        lineContainer.appendChild(key);
-      });
-      this.container.appendChild(lineContainer);
-    });
+    const keys = document.querySelectorAll('.key');
+
+    for (let i = 0, j = 0, k = 0; k < keys.length && i < lang.length; k += 1) {
+      if (lang[i][j] in this.specializedKeys) {
+        keys[k].classList.add('specialized_keys');
+        keys[k].classList.add(this.specializedKeys[lang[i][j]]);
+      }
+      if (lang[i][j] in shiftLayout) {
+        keys[k].classList.add('shift');
+        keys[k].classList.remove('letter');
+        keys[k].innerHTML = `<span>${lang[i][j]}</span>`;
+        keys[k].innerHTML += `<span class="hidden">${shiftLayout[lang[i][j]]}</span>`;
+        j += 1;
+      } else if ((lang[i][j].length === 1 && lang[i][j].match(/[A-zА-я]/g)) || lang[i][j].match(/[Ё-ё]/g)) {
+        keys[k].classList.add('letter');
+        keys[k].innerHTML = `<span>${lang[i][j]}</span>`;
+        keys[k].innerHTML += `<span class="hidden">${lang[i][j].toUpperCase()}</span>`;
+        j += 1;
+      } else {
+        keys[k].innerHTML = `<span>${lang[i][j]}</span>`;
+        j += 1;
+      }
+      if (j > lang[i].length - 1) {
+        i += 1;
+        j = 0;
+      }
+    }
   }
 
   addContent() {
