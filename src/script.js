@@ -3,9 +3,28 @@ import Render from './render.js';
 
 const render = new Render();
 
+function saveLanguage() {
+  if (!localStorage.lang) {
+    localStorage.setItem('lang', 'EN');
+  }
+}
+
+function changeLanguage() {
+  if (localStorage.lang === 'EN') {
+    localStorage.lang = 'RU';
+    render.setLanguage(localStorage.lang);
+  } else if (localStorage.lang === 'RU') {
+    localStorage.lang = 'EN';
+    render.setLanguage(localStorage.lang);
+  }
+}
+
+saveLanguage();
+
 render.addTextArea();
-render.createKey('EN');
+render.createKey();
 render.addContent();
+render.setLanguage(localStorage.lang);
 
 const textArea = document.querySelector('.text');
 
@@ -40,15 +59,27 @@ document.querySelector('.caps_lock').addEventListener('click', function changeCa
 });
 
 document.querySelector('.shift_left').addEventListener('click', function changeShiftState() {
-  changeSymbol('.letter');
-  changeSymbol('.shift');
-  this.classList.toggle('active');
+  const altLeft = document.querySelector('.alt_left');
+  if (altLeft.classList.contains('active')) {
+    changeLanguage();
+    altLeft.classList.remove('active');
+  } else {
+    changeSymbol('.letter');
+    changeSymbol('.shift');
+    this.classList.toggle('active');
+  }
 });
 
 document.querySelector('.shift_right').addEventListener('click', function changeShiftState() {
-  changeSymbol('.letter');
-  changeSymbol('.shift');
-  this.classList.toggle('active');
+  const altRight = document.querySelector('.alt_right');
+  if (altRight.classList.contains('active')) {
+    changeLanguage();
+    altRight.classList.remove('active');
+  } else {
+    changeSymbol('.letter');
+    changeSymbol('.shift');
+    this.classList.toggle('active');
+  }
 });
 
 document.querySelector('.enter').addEventListener('click', () => addSymbol('\n'));
@@ -84,4 +115,12 @@ document.querySelector('.arrow_right').addEventListener('click', () => {
   const start = textArea.selectionStart + 1;
   const end = textArea.selectionStart + 1;
   getCursorPosition(start, end, text);
+});
+
+document.querySelector('.alt_left').addEventListener('click', function activeShift() {
+  this.classList.toggle('active');
+});
+
+document.querySelector('.alt_right').addEventListener('click', function activeShift() {
+  this.classList.toggle('active');
 });
