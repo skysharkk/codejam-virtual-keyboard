@@ -14,6 +14,7 @@ export default class Render {
       ['SHIFT', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', 'SHIFT R'],
       ['CTRL', 'ALT', 'SPACE', 'ALT R', 'CTR R', '&#9204;', '&#9205;'],
     ];
+    this.keyboardCode = ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace', 'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Delete', 'CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Backslash', 'Enter', 'ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ShiftRight', 'ControlLeft', 'AltLeft', 'Space', 'AltRight', 'ControlRight', 'ArrowLeft', 'ArrowRight'];
     this.specializedKeys = {
       BACKSPACE: 'backspace',
       TAB: 'tab',
@@ -102,8 +103,8 @@ export default class Render {
       shiftLayout = this.shiftRussianLayout;
     }
     const keys = document.querySelectorAll('.key');
-
     for (let i = 0, j = 0, k = 0; k < keys.length && i < lang.length; k += 1) {
+      keys[k].classList.add(this.keyboardCode[k]);
       if (lang[i][j] in this.specializedKeys) {
         keys[k].classList.add('specialized_keys');
         keys[k].classList.add(this.specializedKeys[lang[i][j]]);
