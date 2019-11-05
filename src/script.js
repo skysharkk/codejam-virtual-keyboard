@@ -159,11 +159,15 @@ document.addEventListener('keydown', (event) => {
       key.classList.add('active');
     } else if (key.classList.contains('arrow_left')) {
       event.preventDefault();
-      changeCursorPosition(textArea.selectionStart - 1, textArea.selectionStart - 1, textArea.value);
+      const start = textArea.selectionStart - 1;
+      const end = textArea.selectionEnd - 1;
+      changeCursorPosition(start, end, textArea.value);
       key.classList.add('active');
     } else if (key.classList.contains('arrow_right')) {
       event.preventDefault();
-      changeCursorPosition(textArea.selectionStart + 1, textArea.selectionStart + 1, textArea.value);
+      const start = textArea.selectionStart + 1;
+      const end = textArea.selectionEnd + 1;
+      changeCursorPosition(start, end, textArea.value);
       key.classList.add('active');
     } else if ((key.classList.contains('shift_left') || key.classList.contains('shift_right')) && !event.repeat) {
       if (event.altKey) {
