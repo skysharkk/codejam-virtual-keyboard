@@ -3,13 +3,6 @@ import Render from './render.js';
 
 const render = new Render();
 
-render.addTextArea();
-render.createKey();
-render.addContent();
-render.setLanguage(localStorage.lang);
-
-const textArea = document.querySelector('.text');
-
 function saveLanguage() {
   if (!localStorage.lang) {
     localStorage.setItem('lang', 'EN');
@@ -17,6 +10,13 @@ function saveLanguage() {
 }
 
 saveLanguage();
+
+render.addTextArea();
+render.createKey();
+render.addContent();
+render.setLanguage(localStorage.lang);
+
+const textArea = document.querySelector('.text');
 
 function changeLanguage() {
   if (localStorage.lang === 'EN') {
@@ -58,7 +58,7 @@ document.querySelector('.caps_lock').addEventListener('click', function () {
 });
 
 document.querySelector('.shift_left').addEventListener('click', function () {
-  const altRight = document.querySelector('.alt_right');
+  const altRight = document.querySelector('.alt_left');
   if (altRight.classList.contains('active')) {
     changeLanguage();
     altRight.classList.remove('active');
@@ -114,6 +114,12 @@ document.querySelector('.alt_right').addEventListener('click', function activeAl
 document.addEventListener('keydown', (event) => {
   const selector = `.${event.code}`;
   const key = document.querySelector(selector);
+  const altLeft = document.querySelector('.alt_left');
+  const altRight = document.querySelector('.alt_right');
+  const capsLock = document.querySelector('.caps_lock');
+  const shiftRight = document.querySelector('.shift_right');
+  const shiftLeft = document.querySelector('.shift_left');
+
   if (!key.classList.contains('specialized_keys')) {
     event.preventDefault();
     addSymbol(key.innerText);
@@ -138,12 +144,19 @@ document.addEventListener('keydown', (event) => {
     event.preventDefault();
     changeCursorPosition(textArea.selectionStart, textArea.selectionStart + 1, textArea.value);
     key.classList.add('active');
-  } else if ((key.classList.contains('shift_left') || key.classList.contains('shift_right')) && !event.altKey) {
+  } else if ((key.classList.contains('shift_left') || key.classList.contains('shift_right')) && event.altKey && !event.repeat) {
+    if (capsLock.classList.contains('active')) {
+      changeLanguage();
+      changeSymbol('.letter');
+      capsLock.classList.add('active');
+      key.classList.add('active');
+    } else {
+      changeLanguage();
+      key.classList.add('active');
+    }
+  }else if ((key.classList.contains('shift_left') || key.classList.contains('shift_right')) && !event.repeat && !event.altKey) {
     changeSymbol('.letter');
     changeSymbol('.shift');
-    key.classList.add('active');
-  } else if (key.classList.contains('shift_left') && event.altKey) {
-    changeLanguage();
     key.classList.add('active');
   } else if (key.classList.contains('caps_lock')) {
     changeSymbol('.letter');
@@ -157,7 +170,12 @@ document.addEventListener('keyup', (event) => {
   if (!key.classList.contains('caps_lock')) {
     key.classList.remove('active');
   }
-  if ((key.classList.contains('shift_left') || key.classList.contains('shift_right')) && !event.altKey) {
+  if ((key.classList.contains('shift_left') || key.classList.contains('shift_right')) && event.altKey) {
+    changeSymbol('.letter');
+    changeSymbol('.shift');
+    key.classList.remove('active');
+  }
+  if ((key.classList.contains('shift_left') || key.classList.contains('shift_right'))) {
     changeSymbol('.letter');
     changeSymbol('.shift');
     key.classList.remove('active');
