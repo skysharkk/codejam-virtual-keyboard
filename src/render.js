@@ -117,6 +117,7 @@ export default class Render {
         j += 1;
       } else if ((lang[i][j].length === 1 && lang[i][j].match(/[A-zА-я]/g)) || lang[i][j].match(/[Ё-ё]/g)) {
         keys[k].classList.add('letter');
+        keys[k].classList.remove('shift');
         keys[k].innerHTML = `<span>${lang[i][j]}</span>`;
         keys[k].innerHTML += `<span class="hidden">${lang[i][j].toUpperCase()}</span>`;
         j += 1;
