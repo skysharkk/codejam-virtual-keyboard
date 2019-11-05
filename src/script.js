@@ -198,7 +198,7 @@ document.addEventListener('keyup', (event) => {
       key.classList.remove('active');
     }
     if (key.classList.contains('shift_left') || key.classList.contains('shift_right')) {
-      if (!event.altKey && !altLeft.classList.contains('pressed') && !altRight.classList.contains('pressed')) {
+      if ((!event.altKey && !altLeft.classList.contains('pressed')) || (!event.altKey && !altRight.classList.contains('pressed'))) {
         changeSymbol('.letter');
         changeSymbol('.shift');
       }
