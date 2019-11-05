@@ -58,10 +58,14 @@ document.querySelector('.caps_lock').addEventListener('click', function () {
 });
 
 document.querySelector('.shift_left').addEventListener('click', function () {
-  const altRight = document.querySelector('.alt_left');
-  if (altRight.classList.contains('active')) {
+  const alt = document.querySelector('.alt_left');
+  if (alt.classList.contains('active')) {
     changeLanguage();
-    altRight.classList.remove('active');
+    alt.classList.remove('active');
+    if (document.querySelector('.caps_lock').classList.contains('active')) {
+      changeSymbol('.letter');
+      document.querySelector('.caps_lock').classList.add('active');
+    }
   } else {
     changeSymbol('.letter');
     changeSymbol('.shift');
@@ -70,10 +74,14 @@ document.querySelector('.shift_left').addEventListener('click', function () {
 });
 
 document.querySelector('.shift_right').addEventListener('click', function () {
-  const altRight = document.querySelector('.alt_right');
-  if (altRight.classList.contains('active')) {
+  const alt = document.querySelector('.alt_right');
+  if (alt.classList.contains('active')) {
     changeLanguage();
-    altRight.classList.remove('active');
+    alt.classList.remove('active');
+    if (document.querySelector('.caps_lock').classList.contains('active')) {
+      changeSymbol('.letter');
+      document.querySelector('.caps_lock').classList.add('active');
+    }
   } else {
     changeSymbol('.letter');
     changeSymbol('.shift');
@@ -88,11 +96,11 @@ document.querySelector('.tab').addEventListener('click', () => addSymbol('\t'));
 document.querySelector('.space').addEventListener('click', () => addSymbol(' '));
 
 document.querySelector('.backspace').addEventListener('click', () => {
-  changeCursorPosition(textArea.selectionStart - 1, textArea.selectionStart, textArea.value);
+  changeCursorPosition(textArea.selectionStart - 1, textArea.selectionEnd, textArea.value);
 });
 
 document.querySelector('.del').addEventListener('click', () => {
-  changeCursorPosition(textArea.selectionStart, textArea.selectionStart + 1, textArea.value);
+  changeCursorPosition(textArea.selectionStart, textArea.selectionEnd + 1, textArea.value);
 });
 
 document.querySelector('.arrow_left').addEventListener('click', () => {
@@ -114,70 +122,83 @@ document.querySelector('.alt_right').addEventListener('click', function activeAl
 document.addEventListener('keydown', (event) => {
   const selector = `.${event.code}`;
   const key = document.querySelector(selector);
-  const altLeft = document.querySelector('.alt_left');
-  const altRight = document.querySelector('.alt_right');
-  const capsLock = document.querySelector('.caps_lock');
-  const shiftRight = document.querySelector('.shift_right');
-  const shiftLeft = document.querySelector('.shift_left');
-
-  if (!key.classList.contains('specialized_keys')) {
-    event.preventDefault();
-    addSymbol(key.innerText);
+  if (key.classList.contains('ctrl_left') || key.classList.contains('ctrl_right')) {
     key.classList.add('active');
-  } else if (key.classList.contains('enter')) {
-    event.preventDefault();
-    addSymbol('\n');
-    key.classList.add('active');
-  } else if (key.classList.contains('tab')) {
-    event.preventDefault();
-    addSymbol('\t');
-    key.classList.add('active');
-  } else if (key.classList.contains('space')) {
-    event.preventDefault();
-    addSymbol(' ');
-    key.classList.add('active');
-  } else if (key.classList.contains('backspace')) {
-    event.preventDefault();
-    changeCursorPosition(textArea.selectionStart - 1, textArea.selectionStart, textArea.value);
-    key.classList.add('active');
-  } else if (key.classList.contains('del')) {
-    event.preventDefault();
-    changeCursorPosition(textArea.selectionStart, textArea.selectionStart + 1, textArea.value);
-    key.classList.add('active');
-  } else if ((key.classList.contains('shift_left') || key.classList.contains('shift_right')) && event.altKey && !event.repeat) {
-    if (capsLock.classList.contains('active')) {
-      changeLanguage();
+  } else if (!event.ctrlKey) {
+    const altLeft = document.querySelector('.alt_left');
+    const altRight = document.querySelector('.alt_right');
+    if (!key.classList.contains('specialized_keys')) {
+      event.preventDefault();
+      addSymbol(key.innerText);
+      key.classList.add('active');
+    } else if (key.classList.contains('enter')) {
+      event.preventDefault();
+      addSymbol('\n');
+      key.classList.add('active');
+    } else if (key.classList.contains('tab')) {
+      event.preventDefault();
+      addSymbol('\t');
+      key.classList.add('active');
+    } else if (key.classList.contains('space')) {
+      event.preventDefault();
+      addSymbol(' ');
+      key.classList.add('active');
+    } else if (key.classList.contains('backspace')) {
+      event.preventDefault();
+      changeCursorPosition(textArea.selectionStart - 1, textArea.selectionEnd, textArea.value);
+      key.classList.add('active');
+    } else if (key.classList.contains('del')) {
+      event.preventDefault();
+      changeCursorPosition(textArea.selectionStart, textArea.selectionEnd + 1, textArea.value);
+      key.classList.add('active');
+    } else if (key.classList.contains('caps_lock') && !event.repeat) {
       changeSymbol('.letter');
-      capsLock.classList.add('active');
+      key.classList.toggle('active');
+    } else if (key.classList.contains('alt_left') || key.classList.contains('alt_right')) {
+      event.preventDefault();
       key.classList.add('active');
-    } else {
-      changeLanguage();
+    } else if (key.classList.contains('arrow_left')) {
+      event.preventDefault();
+      changeCursorPosition(textArea.selectionStart - 1, textArea.selectionStart - 1, textArea.value);
       key.classList.add('active');
+    } else if (key.classList.contains('arrow_right')) {
+      event.preventDefault();
+      changeCursorPosition(textArea.selectionStart + 1, textArea.selectionStart + 1, textArea.value);
+      key.classList.add('active');
+    } else if ((key.classList.contains('shift_left') || key.classList.contains('shift_right')) && !event.repeat) {
+      if (event.altKey) {
+        changeLanguage();
+        key.classList.add('active');
+        altLeft.classList.add('pressed');
+        altRight.classList.add('pressed');
+        if (document.querySelector('.caps_lock').classList.contains('active')) {
+          changeSymbol('.letter');
+          document.querySelector('.caps_lock').classList.add('active');
+        }
+      } else if (!event.altKey && !altLeft.classList.contains('active')) {
+        changeSymbol('.letter');
+        changeSymbol('.shift');
+        key.classList.add('active');
+      }
     }
-  }else if ((key.classList.contains('shift_left') || key.classList.contains('shift_right')) && !event.repeat && !event.altKey) {
-    changeSymbol('.letter');
-    changeSymbol('.shift');
-    key.classList.add('active');
-  } else if (key.classList.contains('caps_lock')) {
-    changeSymbol('.letter');
-    key.classList.toggle('active');
   }
 });
 
 document.addEventListener('keyup', (event) => {
   const selector = `.${event.code}`;
   const key = document.querySelector(selector);
-  if (!key.classList.contains('caps_lock')) {
-    key.classList.remove('active');
-  }
-  if ((key.classList.contains('shift_left') || key.classList.contains('shift_right')) && event.altKey) {
-    changeSymbol('.letter');
-    changeSymbol('.shift');
-    key.classList.remove('active');
-  }
-  if ((key.classList.contains('shift_left') || key.classList.contains('shift_right'))) {
-    changeSymbol('.letter');
-    changeSymbol('.shift');
-    key.classList.remove('active');
+  if (key) {
+    const altLeft = document.querySelector('.alt_left');
+    const altRight = document.querySelector('.alt_right');
+    if (!key.classList.contains('caps_lock')) {
+      key.classList.remove('active');
+    }
+    if (key.classList.contains('shift_left') || key.classList.contains('shift_right')) {
+      if (!event.altKey && !altLeft.classList.contains('pressed') && !altRight.classList.contains('pressed')) {
+        changeSymbol('.letter');
+        changeSymbol('.shift');
+      }
+      altLeft.classList.remove('pressed');
+    }
   }
 });
