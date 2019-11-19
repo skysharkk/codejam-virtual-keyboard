@@ -1,0 +1,13 @@
+.idea
+node_modules/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history
+.eslintcache
+logs
+*.log
+npm-debug.log*
+.editorconfig
